@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anantika Mannby - Operating Manual</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --accent-primary: #ec4899;
+            --accent-secondary: #a855f7;
+            --accent-gradient: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #8b5cf6 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --glow: 0 0 20px rgba(236, 72, 153, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Typography */
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            letter-spacing: -0.01em;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .mission-statement {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 800px;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        /* Container and Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background: var(--accent-gradient);
+            color: var(--text-primary);
+            box-shadow: var(--glow);
+        }
+
+        /* Cards and Sections */
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Badges and Tags */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(236, 72, 153, 0.1);
+            color: var(--accent-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            margin: 0.25rem 0.5rem 0.25rem 0;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: rgba(236, 72, 153, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.2);
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* Future Page Styles */
+        .future-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.05) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(139, 92, 246, 0.05) 100%);
+        }
+
+        .future-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            background: linear-gradient(135deg, transparent 0%, rgba(236, 72, 153, 0.1) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .future-card:hover::after {
+            opacity: 1;
+        }
+
+        .target-label {
+            background: var(--accent-gradient);
+            color: var(--text-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+            box-shadow: var(--glow);
+        }
+
+        /* Sparklines and Data Viz */
+        .sparkline {
+            height: 80px;
+            margin: 1rem 0;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sparkline canvas {
+            width: 100% !important;
+            height: 80px !important;
+            border-radius: 8px;
+        }
+
+        /* Coming Soon Placeholders */
+        .coming-soon {
+            position: relative;
+            opacity: 0.6;
+            overflow: hidden;
+        }
+
+        .coming-soon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.02) 10px,
+                rgba(255, 255, 255, 0.02) 20px
+            );
+            border-radius: 24px;
+        }
+
+        .coming-soon-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+
+        /* Practices Grid */
+        .practices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .practice-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .practice-item:last-child {
+            border-bottom: none;
+        }
+
+        .practice-label {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Page Transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 6rem 0 4rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-primary);
+            background: rgba(236, 72, 153, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .hero-section {
+                min-height: 80vh;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav {
+                top: 1rem;
+                left: 1rem;
+                right: 1rem;
+                transform: none;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-link {
+                text-align: center;
+            }
+
+            .contact-grid {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll Animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            30% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="#" class="nav-link active" onclick="showPage('now')">Operating Manual v1.0</a>
+        <a href="#" class="nav-link" onclick="showPage('future')">Operating System v2.0</a>
+        <a href="#" class="nav-link" onclick="showPage('assignment')">Assignment</a>
+    </nav>
+
+    <!-- NOW PAGE -->
+    <div id="now" class="page active">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Anantika Mannby</h1>
+                <p class="mission-statement">"I build social discovery products and communities that turn taste into traction."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Where I Create Leverage</h2>
+                <div class="cards-grid">
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Zero→One Product & UX</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Ship fast with clear product framing, research → UI → shipped features.</p>
+
+                        <!-- Product Development Flow Graphic -->
+                        <div style="margin: 1.5rem 0; padding: 1.25rem 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid var(--border);">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                                <div style="text-align: center;">
+                                    <div style="width: 48px; height: 48px; background: var(--accent-gradient); border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: var(--glow);">💡</div>
+                                    <div style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">Research</div>
+                                    <div style="font-size: 0.75rem; margin-top: 0.15rem;">User insights & analysis</div>
+                                </div>
+                                <div style="color: var(--accent-primary); font-weight: bold; font-size: 1.2rem;">↓</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 48px; height: 48px; background: var(--accent-gradient); border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: var(--glow);">🎨</div>
+                                    <div style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">Design</div>
+                                    <div style="font-size: 0.75rem; margin-top: 0.15rem;">Prototypes & testing</div>
+                                </div>
+                                <div style="color: var(--accent-primary); font-weight: bold; font-size: 1.2rem;">↓</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 48px; height: 48px; background: var(--accent-gradient); border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; box-shadow: var(--glow);">⚡</div>
+                                    <div style="font-weight: 600; color: var(--text-primary); font-size: 0.9rem;">Ship</div>
+                                    <div style="font-size: 0.75rem; margin-top: 0.15rem;">Deploy & iterate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Adobe Suite</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">User Research</span>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Narrative & Growth</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Proof I can turn thesis → audience with $0 marketing budget</p>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <div class="metric-value">80K+</div>
+                                <div class="metric-label">Users</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">500M+</div>
+                                <div class="metric-label">Views</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">250K</div>
+                                <div class="metric-label">Followers</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Team Leadership & Ops</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Lead a core team of 4 + an intern bench of 20+, run sprints in Notion/Jira/Confluence, set goals and ship.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🏆 USC Venture Showcase ($25K)</a>
+                            <a href="#" class="badge">📱 Top 100 App Store</a>
+                            <a href="#" class="badge">🚀 Techstars Catalyst</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Ecosystem & Community</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Co-founded FoundHer (backed by Brad Feld), featured on USA Today cover & NYT Business; host rooms with a16z/Accel/NFX/etc.</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">📰 USA Today Cover</a>
+                            <a href="#" class="badge">📰 NYT Business</a>
+                            <a href="#" class="badge">💰 Brad Feld Backed ($60K)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Professional Experience</h2>
+                <div class="cards-grid">
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Treffa Founder & CEO</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">February 2022 - Current</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Envisioned, created, and scaled Treffa: a global marketplace for shopping advice powered by AI & human recommendations. 80K users with a $0 marketing budget</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🚀 80K Users</a>
+                            <a href="#" class="badge">🤖 AI + Human Recs</a>
+                            <a href="#" class="badge">💰 $0 Marketing Budget</a>
+                            <a href="#" class="badge">🏆 Top 100 App Store</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">.406 Fellow</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">September 2023 - Current</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Selected as one of ~10 students nationwide for only builder-first Venture Fellowship</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🎯 Top 10 Nationwide</a>
+                            <a href="#" class="badge">🚀 Venture Fellowship</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Penni Co-Founder</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">September 2024 - Current</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Co-founder, designer, and developer of cross-platform micropayment solution enabling à la carte access to media behind subscription paywalls</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">💳 Micropayments</a>
+                            <a href="#" class="badge">🏆 Judges Choice Award</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Computer for Kids Founder</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">March 2022 - July 2024</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Co-Founded 501c3 nonprofit donated 200+ computers and $50,000+ of equipment to student learning centers</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🏢 501c3 Nonprofit</a>
+                            <a href="#" class="badge">💻 200+ Computers</a>
+                            <a href="#" class="badge">💰 $50K+ Donated</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Best Buddies Student Advisory Board</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">December 2019 - August 2022</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Led regional student advocacy for Best Buddies in the Pacific Northwest, mobilizing schools and organizing initiatives like HiTech Talks</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🌎 Pacific Northwest</a>
+                            <a href="#" class="badge">🏫 School Mobilization</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">TEDxMerrittIslandWomen Founder</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">December 2020 - August 2022</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Founded annual TEDxWomen event aimed at inspiring young women across the greater Seattle area through diverse voices and stories</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🎤 TEDx License</a>
+                            <a href="#" class="badge">👩 Women's Focus</a>
+                            <a href="#" class="badge">🌟 Annual Event</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Major Projects & Recognition</h2>
+                <div class="cards-grid">
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Honda Innovators Forum</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">September 2024</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Pitched vision for future of transportation to Honda's North America R&D team with analysis, business cases and design for autonomous rideshare</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🚗 Honda R&D</a>
+                            <a href="#" class="badge">🤖 Autonomous Vehicles</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Google Innovators Program</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">October 2024</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Created voting app that encourages both national and local elections with reward points for popular restaurants and retailers</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🗳️ Civic Engagement</a>
+                            <a href="#" class="badge">📱 Mobile App</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Destination Imagination Officer</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">August 2012 - May 2024</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">10 years of creative innovation, built award-winning projects in global challenges (150K+ competitors). Won 2 global Renaissance Awards in engineering</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🏆 2x Global Awards</a>
+                            <a href="#" class="badge">🔧 Engineering Focus</a>
+                            <a href="#" class="badge">📈 150K+ Competitors</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Amnesty International Leadership</h3>
+                        <p style="color: var(--accent-primary); font-weight: 600; margin-bottom: 0.5rem;">February 2022 - August 2022</p>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Raised hundreds of thousands of dollars in supplies for Ukrainian and immigrant refugees. 501(c)(3) Yearning to Breathe Free received 600,000+ site visits</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🌍 Human Rights</a>
+                            <a href="#" class="badge">💰 Hundreds of Thousands Raised</a>
+                            <a href="#" class="badge">📊 600K+ Site Visits</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Operating Practices</h2>
+                <div class="practices-grid">
+                    <div class="card scroll-reveal">
+                        <div class="practice-item">
+                            <div class="practice-label">What I Optimize For</div>
+                            <p>Speed-to-insight, legible systems, taste-driven UX that converts</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Default Cadence</div>
+                            <p>Weekly sprint board; Wed user calls; Fri metrics & decisions</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">How to Give Me Feedback</div>
+                            <p>Concrete user impact first; then craft; then long-term system</p>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <div class="practice-item">
+                            <div class="practice-label">Things I Track</div>
+                            <p>Retention, creation rate, CTR to purchase, creator yield, time-to-ship</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Anti-Goals</div>
+                            <p>Vanity features without signal, unowned problem statements, process bloat</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Immediate Team Value</div>
+                            <p>Own 0→1 scopes, stand up growth loops, build ops backbone, lead external rooms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FUTURE PAGE -->
+    <div id="future" class="page">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Anantika Mannby</h1>
+                <p class="mission-statement">"Building the infrastructure for taste-driven commerce at scale."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">My Successes</h2>
+                <div class="cards-grid">
+                    <div class="card future-card scroll-reveal">
+                        <div class="target-label" style="background: var(--success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">Exited</div>
+                        <h3 class="card-title">Treffa</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">500M users with taste-graph recommendations</p>
+                        <div class="sparkline">
+                            <canvas id="chart-treffa"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <div class="target-label" style="background: var(--warning); box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);">Sold</div>
+                        <h3 class="card-title">Nexus Robotics</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Autonomous warehouse fulfillment systems • $45M ARR at exit</p>
+                        <div class="sparkline">
+                            <canvas id="chart-creators"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <div class="target-label" style="background: var(--accent-secondary); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);">Founder</div>
+                        <h3 class="card-title">Prism Analytics</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">AI-powered consumer behavior prediction • $28.5M ARR • 85% Fortune 500 clients</p>
+                        <div class="sparkline">
+                            <canvas id="chart-data"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <div class="target-label">Active</div>
+                        <h3 class="card-title">FoundHer</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">500+ founders; $180M raised; 12 exits</p>
+                        <div class="sparkline">
+                            <canvas id="chart-foundher"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Next Chapter Strategy</h2>
+                <div class="cards-grid">
+                    <div class="card future-card scroll-reveal">
+                        <h3 class="card-title">AI Infrastructure at Scale</h3>
+                        <div class="practice-item">
+                            <div class="practice-label">Vision</div>
+                            <p>Build the foundational AI layer that powers next-gen consumer experiences</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Approach</div>
+                            <p>Multi-modal AI platform • Real-time personalization • Cross-industry deployment</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Scale Target</div>
+                            <p>$500M ARR platform serving 1B+ users across verticals</p>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <h3 class="card-title">Ecosystem Investment & Incubation</h3>
+                        <div class="practice-item">
+                            <div class="practice-label">Vision</div>
+                            <p>Deploy capital and expertise to build the next generation of category leaders</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Approach</div>
+                            <p>$100M fund • Hands-on incubation • Network-driven deal flow • Operational expertise</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Scale Target</div>
+                            <p>25 portfolio companies • 5 unicorns • 15+ successful exits</p>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <h3 class="card-title">Global Impact Platform</h3>
+                        <div class="practice-item">
+                            <div class="practice-label">Vision</div>
+                            <p>Scale FoundHer into the definitive platform for underrepresented entrepreneurs globally</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Approach</div>
+                            <p>Multi-city chapters • Government partnerships • Corporate accelerators • Media platform</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Scale Target</div>
+                            <p>2,000+ founders • $2B+ raised by alumni • 50+ exits • 25 countries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Executive Operating System</h2>
+                <div class="practices-grid">
+                    <div class="card future-card scroll-reveal">
+                        <h3 class="card-title">Multi-Company Leadership</h3>
+                        <div class="practice-item">
+                            <div class="practice-label">Proven Experience</div>
+                            <p>Built & exited 2 companies • Currently scaling $28.5M ARR AI platform • Led 500+ person community</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Leadership Philosophy</div>
+                            <p>Outcome-driven autonomy • Data-informed intuition • Talent density over headcount</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Operational Leverage</div>
+                            <p>Cross-portfolio knowledge transfer • Network-driven hiring • Strategic partnership acceleration</p>
+                        </div>
+                    </div>
+
+                    <div class="card future-card scroll-reveal">
+                        <h3 class="card-title">Investment & Advisory Approach</h3>
+                        <div class="practice-item">
+                            <div class="practice-label">Value Creation Focus</div>
+                            <p>Product-market fit acceleration • Go-to-market optimization • Technical hiring & culture</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Pattern Recognition</div>
+                            <p>Consumer behavior at scale • AI/ML product development • Marketplace dynamics</p>
+                        </div>
+                        <div class="practice-item">
+                            <div class="practice-label">Success Metrics</div>
+                            <p>Portfolio IRR >40% • 80% follow-on rate • 3x median time-to-exit acceleration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <h2 class="section-title scroll-reveal">Important Milestones</h2>
+                <div class="cards-grid">
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Prism Analytics IPO</h3>
+                        <p style="color: var(--text-secondary);">Successfully took AI behavior prediction platform public at $2.4B valuation • Ring NYSE opening bell</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">📈 $2.4B Valuation</a>
+                            <a href="#" class="badge">🏛️ NYSE: PRISM</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Mannby Ventures Launch</h3>
+                        <p style="color: var(--text-secondary);">Closed $150M institutional fund focused on AI infrastructure & consumer platforms</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">💰 $150M AUM</a>
+                            <a href="#" class="badge">🚀 12 Portfolio Companies</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Forbes 30 Under 30 VC</h3>
+                        <p style="color: var(--text-secondary);">Recognized for exceptional portfolio performance and ecosystem impact across multiple exits</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🏆 Forbes Recognition</a>
+                            <a href="#" class="badge">📰 Profile Feature</a>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">FoundHer Global Impact</h3>
+                        <p style="color: var(--text-secondary);">Expanded to 28 countries with government partnerships • Alumni raised $2.8B across 65 exits</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="badge">🌍 28 Countries</a>
+                            <a href="#" class="badge">💵 $2.8B Alumni Funding</a>
+                            <a href="#" class="badge">🎯 65 Exits</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ASSIGNMENT PAGE -->
+    <div id="assignment" class="page">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Assignment</h1>
+                <p class="mission-statement">"Rethinking the resume as an interface, not a document."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <div class="cards-grid">
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Rethinking the Resume</h3>
+                        <div style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem;">
+                            <p style="margin-bottom: 1rem;">My original black-and-white resume is functional, it compresses education, ventures, and skills into a grid of text, optimized for scanning. But function alone is not communication. Design asks: how can form shape meaning?</p>
+
+                            <p style="margin-bottom: 1rem;">This creative resume is my answer. Borrowing the language of product design—modularity, hierarchy, systems thinking—it feels closer to a dashboard than a document. Panels, gradients, and typographic rhythm replace bullet lists. Dark backgrounds with neon accents suggest depth and movement, a nod to the idea that a career is not static but a living, evolving OS.</p>
+
+                            <p style="margin-bottom: 1rem;">Where the traditional resume is flat information architecture, this one applies interaction design principles: cards that echo UI components, Gestalt logics of similarity and proximity, figure/ground contrast for clarity. Even the microcopy shifts from passive descriptions to active designations, <strong>"Operating Practices,"</strong> <strong>"Executive Operating System,"</strong> <strong>"Next Chapter Strategy,"</strong> transforming my experience from static history into a system of practices.</p>
+
+                            <p style="margin-bottom: 1rem;">But the change is more than aesthetic, it is philosophical. Resumes usually look backward. Work, however, is forward-looking: about what we might build together. This format surfaces not only what I've done, but how I work, what I value, and where I create leverage. It frames my design sensibility, entrepreneurial speed, and leadership style as tools others can plug into through sections like <strong>"Where I Create Leverage"</strong> and <strong>"Professional Experience."</strong></p>
+
+                            <p style="margin-bottom: 1rem;">The future of hiring won't be about slotting into roles, but about forming fluid teams around projects. A resume should behave like a compatibility layer, modular, transparent, and values-forward, so collaborators can see not just what I've done but how to work best with me.</p>
+
+                            <p>In other words: this is not a résumé. It's an interface. A living system that turns my narrative into design language, letting others experience how I build. That, I believe, is what the resume of the future should be.</p>
+                        </div>
+                    </div>
+
+                    <div class="card scroll-reveal">
+                        <h3 class="card-title">Traditional Resume</h3>
+                        <div style="color: var(--text-secondary); font-family: 'Monaco', 'Consolas', monospace; font-size: 0.8rem; line-height: 1.4; white-space: pre-line; background: rgba(0, 0, 0, 0.3); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); max-height: 500px; overflow-y: auto;">Anantika Mannby
+mannby@usc.edu | (206) 747-1318 | https://www.linkedin.com/in/anantika/
+
+EDUCATION
+University of Southern California, Iovine and Young Academy                    Current - May 2028
+• B.S. Art, Technology, and the Business of Innovation (Product design + CS + Entrepreneurship)
+• Concentration: Machine Intelligence & AI
+• USC Undergraduate Merit Scholar
+• GPA: 3.92
+
+PROFESSIONAL EXPERIENCE
+Treffa, Founder, CEO                                                          February 2022 - Current
+Envisioned, created, and scaled Treffa: a global marketplace for shopping advice powered by AI & human recommendations
+• 80,000+ Users, 500 million social media views and 250k followers with a $0 marketing budget
+• Leading a core team of 4 and a fluctuating intern team of 20+ (e.g. from Stanford, Johns Hopkins, UMich, etc.)
+• Top 100 free apps in Apple App store in multiple countries
+• USC Venture Showcase winner (25k), OORI winner (15k), AI Ignite Grant winner (3k), Troy Labs winner (4k)
+• Techstars catalyst member
+
+FoundHer, Co-Founder                                                          February 2022 - Current
+Only all-female hacker house in the world.
+• Backed by Brad Feld (60k)
+• Featured on the front page of USA Today and The New York Times Business section (print & digital)
+• Residents have raised millions, reached billions, and built products used by tens of thousands.
+• Host private events with top firms like a16z, Accel, NFX, Pear VC, Kleiner Perkins, Bain Capital Ventures, Bloomberg Beta, and more
+
+.406, Fellow                                                                  September 2025 - Current
+• Selected as one of ~10 students nationwide for only builder first Venture Fellowship
+
+Penni, Co-Founder                                                             September 2024 - Current
+• Co-founder, designer, and developer of Penni, a cross-platform micropayment solution enabling à la carte access to media behind subscription paywalls. Pre-launch, presented to a team of VCs, winning Judges Choice Award (1k)
+
+The Computers for Kids Foundation, Founding Team                               March 2022 - July 2024
+• Co-Founded 501c3 nonprofit donated 200+ computers and over $50,000 of computer equipment to student learning centers
+
+Best Buddies PNW Student Advisory Board, Vice Chair                           December 2020 - August 2022
+• Led regional student advocacy for Best Buddies in the Pacific Northwest, mobilizing schools and organizing initiatives like TEDx talks, legal campaigns, and galas to combat isolation for over 200 million people with intellectual and developmental disabilities
+
+TEDxMercerIslandWomen, Founder                                                December 2020 - August 2022
+• Founded an annual TEDxWomen event aimed at inspiring young women across the greater Seattle area through diverse voices and stories
+
+EXTRACURRICULAR EXPERIENCES
+Honda - Innovators Forum                                                      September 2024
+• Pitched a vision for the future of transportation to Honda's North America R&D team with analysis, business cases and design for a new form of autonomous rideshare that emulates car ownership while addressing the practical needs of urban transportation
+
+Google - Innovators Forum                                                     October 2024
+• Created an app that encourages voting in both national and local elections by rewarding points redeemable at popular restaurants and retailers, while using AI to match candidates and initiatives to users' values for streamlined, personalized voting guidance
+
+Destination Imagination, Officer                                              August 2012 - May 2024
+10+ years of competitive STEM innovation; built award-winning robots in global challenges (150K+ competitors)
+• Placed top four globally four times; won two global Renaissance Awards in engineering
+• 8x consecutive state champion
+
+Amnesty International, UNICEF, Yearning to Breathe Free, Outreach and Technology Lead    February 2022 - August 2022
+• Raised hundreds of thousands of dollars, and more in supplies, for various causes such as supporting Ukrainian refugees
+• 501(c)(3) non profit Yearning to Breathe Free has received over 600,000 site visits since launching and has since aided in providing resources to prospective immigrants across the globe
+
+SKILLS & TOOLS
+Proficient in Figma, Adobe Suite, Notion, JIRA, Confluence, Git, and software development (HTML/CSS/JS, React, TypeScript, Python, scikit-learn, SQL, data visualization). Experienced in user research, UI design, defining product roadmaps, and shipping B2B/B2C features</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <h3 style="margin-bottom: 1rem;">Anantika Mannby</h3>
+            <div class="contact-grid">
+                <a href="mailto:mannby@usc.edu" class="contact-link">mannby@usc.edu</a>
+                <a href="tel:+12067471318" class="contact-link">(206) 747-1318</a>
+                <a href="https://www.linkedin.com/in/anantika/" class="contact-link">LinkedIn</a>
+            </div>
+            <p style="margin-top: 2rem; color: var(--text-tertiary); font-size: 0.9rem;">
+                This is a gift to myself for the time capsule assignment.<br>
+                USC Iovine and Young Academy, 2025.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Add active to clicked nav link
+            event.target.classList.add('active');
+
+            // Reset scroll reveal animations
+            setTimeout(() => {
+                const elements = document.querySelectorAll('.scroll-reveal');
+                elements.forEach(el => {
+                    el.classList.remove('revealed');
+                });
+                initScrollReveal();
+
+                // Reinitialize charts if switching to future page
+                if (pageId === 'future') {
+                    setTimeout(initCharts, 200);
+                }
+            }, 100);
+        }
+
+        // Scroll reveal animation
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Chart creation function
+        function createChart(canvasId, chartType, data, color, targetValue, options = {}) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            // Configure Chart.js defaults for dark theme
+            Chart.defaults.color = '#a1a1aa';
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
+            const baseConfig = {
+                type: chartType,
+                data: {
+                    labels: data.map((_, i) => ''),
+                    datasets: [{
+                        data: data,
+                        borderColor: color,
+                        backgroundColor: chartType === 'bar' ?
+                            color.replace('rgb', 'rgba').replace(')', ', 0.8)') :
+                            color.replace('rgb', 'rgba').replace(')', ', 0.1)'),
+                        borderWidth: chartType === 'bar' ? 0 : 2,
+                        fill: chartType !== 'bar',
+                        tension: options.tension || 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 4,
+                        pointHoverBackgroundColor: color,
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2,
+                        borderRadius: chartType === 'bar' ? 4 : 0,
+                        ...options.datasetOptions
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#a1a1aa',
+                            borderColor: color,
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            callbacks: {
+                                title: () => 'Progress',
+                                label: (context) => {
+                                    const value = context.parsed.y;
+                                    const unit = targetValue.includes('%') ? '%' :
+                                                targetValue.includes('K') ? 'K' :
+                                                targetValue.includes('M') ? 'M' : '';
+                                    return `${value}${unit} toward ${targetValue}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            display: false,
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            borderJoinStyle: 'round'
+                        },
+                        bar: {
+                            borderSkipped: false
+                        }
+                    },
+                    ...options.chartOptions
+                }
+            };
+
+            return new Chart(ctx, baseConfig);
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Treffa - SUCCESSFUL EXIT (completed growth curve)
+            createChart('chart-treffa', 'line',
+                [0.1, 0.2, 0.4, 0.8, 1.5, 2.8, 4.5, 6.8, 8.5, 9.2, 10.0],
+                'rgb(16, 185, 129)',
+                'EXITED at 500M Users',
+                {
+                    tension: 0.2,
+                    datasetOptions: {
+                        borderWidth: 3,
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)'
+                    }
+                }
+            );
+
+            // Nexus Robotics - ACQUISITION SUCCESS (revenue curve leading to sale)
+            createChart('chart-creators', 'bar',
+                [0.5, 1.2, 2.8, 5.5, 8.2, 12.0, 18.5, 25.0, 32.5, 40.0, 45.0],
+                'rgb(245, 158, 11)',
+                'SOLD at $45M ARR'
+            );
+
+            // Prism Analytics - ACTIVE GROWTH (current AI company revenue)
+            createChart('chart-data', 'line',
+                [0.1, 0.3, 0.8, 1.5, 2.8, 4.2, 6.5, 9.8, 14.2, 20.1, 28.5],
+                'rgb(168, 85, 247)',
+                '$28.5M ARR',
+                {
+                    tension: 0.3,
+                    datasetOptions: {
+                        backgroundColor: 'rgba(168, 85, 247, 0.3)',
+                        borderWidth: 2
+                    }
+                }
+            );
+
+            // FoundHer - MASSIVE COMMUNITY IMPACT (stepped growth to 500+ founders)
+            createChart('chart-foundher', 'line',
+                [25, 50, 85, 120, 160, 210, 275, 340, 410, 455, 500],
+                'rgb(236, 72, 153)',
+                '500 Founders',
+                {
+                    tension: 0,
+                    datasetOptions: {
+                        stepped: 'before',
+                        borderWidth: 2,
+                        backgroundColor: 'rgba(236, 72, 153, 0.15)'
+                    }
+                }
+            );
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollReveal();
+            // Delay chart initialization to ensure page is ready
+            setTimeout(initCharts, 500);
+        });
+    </script>
+</body>
+</html>
